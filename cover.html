@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infosite Pro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Animated gradient orbs */
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    z-index: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+  .bg-orb:nth-child(1) { width: 500px; height: 500px; background: #ff6a00; top: -100px; left: -100px; animation-delay: 0s; }
+  .bg-orb:nth-child(2) { width: 400px; height: 400px; background: #e8352c; bottom: -80px; right: -80px; animation-delay: -3s; }
+  .bg-orb:nth-child(3) { width: 300px; height: 300px; background: #ff4f1f; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  /* Grid overlay */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #ff6a00, #e8352c);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff;
+  }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+    letter-spacing: 0.3px;
+  }
+
+  .nav-links a:hover { color: #ff6a00; }
+
+  .btn-nav {
+    background: linear-gradient(135deg, #ff6a00, #e8352c);
+    color: #fff; border: none; padding: 10px 24px;
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.3px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .btn-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255,106,0,0.35);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 100px 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+  }
+
+  .hero-text { max-width: 540px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,106,0,0.1);
+    border: 1px solid rgba(255,106,0,0.25);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 12px; font-weight: 600; color: #ff8c42;
+    margin-bottom: 28px; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px; background: #ff6a00;
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, #ff6a00, #e8352c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 40px;
+    max-width: 460px;
+    font-weight: 400;
+  }
+
+  .hero-buttons { display: flex; gap: 16px; align-items: center; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6a00, #e8352c);
+    color: #fff; border: none; padding: 16px 36px;
+    border-radius: 14px; font-size: 15px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.3px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15));
+    opacity: 0; transition: opacity 0.3s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255,106,0,0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; padding: 16px 36px;
+    border-radius: 14px; font-size: 15px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.3px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .browser-mockup {
+    width: 520px; height: 380px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .browser-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .browser-dot:nth-child(1) { background: #ff5f57; }
+  .browser-dot:nth-child(2) { background: #febc2e; }
+  .browser-dot:nth-child(3) { background: #28c840; }
+
+  .browser-url {
+    margin-left: 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px; padding: 5px 14px;
+    font-size: 11px; color: rgba(255,255,255,0.3);
+    flex: 1; max-width: 280px;
+  }
+
+  .browser-content {
+    padding: 24px;
+    height: calc(100% - 46px);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .mock-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 18px;
+    backdrop-filter: blur(10px);
+  }
+
+  .mock-card-title {
+    width: 60%; height: 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px; margin-bottom: 10px;
+  }
+
+  .mock-card-line {
+    width: 100%; height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px; margin-bottom: 6px;
+  }
+  .mock-card-line:last-child { width: 70%; }
+
+  .mock-grid { display: flex; gap: 12px; }
+  .mock-grid-item {
+    flex: 1; background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 14px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+
+  .mock-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255,106,0,0.3), rgba(232,53,44,0.3));
+  }
+
+  .mock-line { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; }
+  .mock-line.short { width: 60%; }
+
+  /* Floating elements */
+  .float-el {
+    position: absolute;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: floatEl 6s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  .float-el:nth-child(1) { top: 20px; right: -40px; animation-delay: -1s; }
+  .float-el:nth-child(2) { bottom: 40px; left: -50px; animation-delay: -3s; }
+
+  @keyframes floatEl {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .float-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #ff6a00, #e8352c);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #fff;
+  }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 50px 0 80px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, #ff6a00, #e8352c);
+    opacity: 0.6;
+  }
+
+  .stat-number {
+    font-size: 36px; font-weight: 800; color: #fff;
+    letter-spacing: -1px; margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 13px; color: rgba(255,255,255,0.35);
+    font-weight: 500; letter-spacing: 0.3px;
+  }
+
+  /* FEATURES */
+  .features {
+    padding: 60px 0 80px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px; padding: 36px 30px;
+    transition: all 0.4s; position: relative; overflow: hidden;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,106,0,0.05), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+
+  .feature-card:hover::after { opacity: 1; }
+  .feature-card:hover { border-color: rgba(255,106,0,0.2); transform: translateY(-4px); }
+
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, rgba(255,106,0,0.15), rgba(232,53,44,0.15));
+    border: 1px solid rgba(255,106,0,0.2);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 22px; position: relative; z-index: 1;
+  }
+
+  .feature-card h3 {
+    font-size: 18px; font-weight: 700; color: #fff;
+    margin-bottom: 10px; letter-spacing: -0.3px; position: relative; z-index: 1;
+  }
+
+  .feature-card p {
+    font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.35);
+    position: relative; z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  footer p { font-size: 13px; color: rgba(255,255,255,0.25); }
+</style>
+</head>
+<body>
+
+<div class="bg-orb"></div>
+<div class="bg-orb"></div>
+<div class="bg-orb"></div>
+<div class="grid-overlay"></div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-icon">I</div>
+      Infosite
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Главная</a></li>
+      <li><a href="#">Статьи</a></li>
+      <li><a href="#">FAQ</a></li>
+      <li><a href="#">О нас</a></li>
+    </ul>
+    <button class="btn-nav">Связаться</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="badge"><span class="badge-dot"></span> Информация. Доступно.</div>
+      <h1>Информационный<br>сайт <span>нового</span><br>поколения</h1>
+      <p>Структурированный контент, интуитивная навигация и современный дизайн для вашего информационного проекта</p>
+      <div class="hero-buttons">
+        <button class="btn-primary">Начать проект</button>
+        <button class="btn-secondary">Подробнее</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="float-el" style="top:20px;right:-40px;">
+        <div class="float-icon">&#9733;</div>
+        SEO Ready
+      </div>
+      <div class="float-el" style="bottom:40px;left:-50px;">
+        <div class="float-icon">&#9889;</div>
+        Быстрая загрузка
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-url">https://your-infosite.ru</div>
+        </div>
+        <div class="browser-content">
+          <div class="mock-card" style="flex:1;">
+            <div class="mock-card-title"></div>
+            <div class="mock-card-line"></div>
+            <div class="mock-card-line"></div>
+            <div class="mock-card-line" style="width:80%"></div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-grid-item">
+              <div class="mock-icon"></div>
+              <div class="mock-line"></div>
+              <div class="mock-line short"></div>
+            </div>
+            <div class="mock-grid-item">
+              <div class="mock-icon" style="background:linear-gradient(135deg,rgba(232,53,44,0.3),rgba(255,79,31,0.3))"></div>
+              <div class="mock-line"></div>
+              <div class="mock-line short"></div>
+            </div>
+            <div class="mock-grid-item">
+              <div class="mock-icon" style="background:linear-gradient(135deg,rgba(255,140,66,0.3),rgba(232,53,44,0.3))"></div>
+              <div class="mock-line"></div>
+              <div class="mock-line short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-number">150+</div>
+      <div class="stat-label">Проектов</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">98%</div>
+      <div class="stat-label">Довольных клиентов</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">&lt;2s</div>
+      <div class="stat-label">Время загрузки</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">3 дн.</div>
+      <div class="stat-label">Средний срок</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature-card">
+      <div class="feature-icon">&#127912;</div>
+      <h3>Современный дизайн</h3>
+      <p>Glassmorphism, градиенты и чистая типографика для профессионального вида</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">&#128241;</div>
+      <h3>Адаптивность</h3>
+      <p>Идеальное отображение на любом устройстве: от смартфона до десктопа</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">&#128202;</div>
+      <h3>SEO-оптимизация</h3>
+      <p>Правильная структура, мета-теги и семантическая вёрстка для поисковых систем</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Infosite Pro. Все права защищены.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
